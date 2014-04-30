@@ -89,17 +89,24 @@ func (l *Lexer) backup() {
   l.pos -= 1
 }
 
+func (l *Lexer) ignore() {
+  l.start += 1
+}
+
 //state functions
 func lexText(l *Lexer) stateFunc {
   for {
     r := l.next()
     if r == eof { break }
-    switch r {
-    case '\'':
+    switch {
+    case r == '\'':
       l.emit(tokenQuote)
       return lexLeft(l)
-    case ')':
-      l.emit(tokenRight)
+    case isSpace(r):
+      l.ignore()
+    case isAlphaNumeric(r):
+      l.backup()
+      return lexIdentifier
     }
   }
 
@@ -123,15 +130,42 @@ func lexLeft(l *Lexer) stateFunc {
 func lexInsideList(l *Lexer) stateFunc {
   r := l.next()
 
-  if isAlphaNumeric(r) {
-    l.emit(tokenNumber)
-  } else {
+  switch  {
+  case r == ')':
+    l.emit(tokenRight)
+    return lexText
+  case isAlphaNumeric(r):
     l.backup()
+    return lexIdentifier
+  case r == '(':
+    l.backup()
+    return lexLeft
   }
 
-  return lexText
+  return lexInsideList
 }
 
+func lexIdentifier(l *Lexer) stateFunc {
+  r := l.next()
+
+  switch {
+  case isSpace(r):
+    l.backup()
+    l.emit(tokenNumber)
+    l.ignore()
+    return lexInsideList
+  case r == ')':
+    l.backup()
+    l.emit(tokenNumber)
+    return lexInsideList
+  }
+
+  return lexIdentifier
+}
+
+func isSpace(r rune) bool {
+  return r == ' '
+}
 
 func isAlphaNumeric(r rune) bool {
   return unicode.IsLetter(r) || unicode.IsDigit(r)
