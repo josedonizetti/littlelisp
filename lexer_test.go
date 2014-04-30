@@ -56,6 +56,13 @@ var tests = []LexTest{
     tRight,
     tEOF,
   }},
+  {"oneElementList", "'(1)", []token{
+    tQuote,
+    tLeft,
+    {tokenNumber,"1"},
+    tRight,
+    tEOF,
+  }},
 }
 
 func TestLex(t *testing.T) {

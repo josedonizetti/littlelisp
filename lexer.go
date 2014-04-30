@@ -1,6 +1,7 @@
 package littlelisp
 
 import (
+  "unicode"
   "unicode/utf8"
   "fmt"
 )
@@ -11,7 +12,9 @@ const(
   tokenLeft tokenType = iota
   tokenRight
   tokenQuote
-  tokenText
+  tokenString
+  tokenError
+  tokenNumber
   tokenEOF
 )
 
@@ -82,6 +85,10 @@ func (l *Lexer) next() rune {
   return r
 }
 
+func (l *Lexer) backup() {
+  l.pos -= 1
+}
+
 //state functions
 func lexText(l *Lexer) stateFunc {
   for {
@@ -90,14 +97,10 @@ func lexText(l *Lexer) stateFunc {
     switch r {
     case '\'':
       l.emit(tokenQuote)
-      lexLeft(l)
+      return lexLeft(l)
     case ')':
       l.emit(tokenRight)
     }
-  }
-
-  if l.pos > l.start {
-    l.emit(tokenText)
   }
 
   l.emit(tokenEOF)
@@ -107,8 +110,29 @@ func lexText(l *Lexer) stateFunc {
 
 func lexLeft(l *Lexer) stateFunc {
   r := l.next()
-  switch r {
-  case '(': l.emit(tokenLeft)
+
+  if r ==  '(' {
+    l.emit(tokenLeft)
+    return lexInsideList
+  } else {
+    l.emit(tokenError)
+    return nil
   }
-  return nil
+}
+
+func lexInsideList(l *Lexer) stateFunc {
+  r := l.next()
+
+  if isAlphaNumeric(r) {
+    l.emit(tokenNumber)
+  } else {
+    l.backup()
+  }
+
+  return lexText
+}
+
+
+func isAlphaNumeric(r rune) bool {
+  return unicode.IsLetter(r) || unicode.IsDigit(r)
 }
