@@ -10,6 +10,7 @@ type tokenType int
 const(
   tokenLeft tokenType = iota
   tokenRight
+  tokenQuote
   tokenText
   tokenEOF
 )
@@ -87,12 +88,11 @@ func lexText(l *Lexer) stateFunc {
     r := l.next()
     if r == eof { break }
     switch r {
-    case '(':
-      l.emit(tokenLeft)
+    case '\'':
+      l.emit(tokenQuote)
+      lexLeft(l)
     case ')':
       l.emit(tokenRight)
-    case '1':
-      l.emit(tokenText)
     }
   }
 
@@ -101,5 +101,14 @@ func lexText(l *Lexer) stateFunc {
   }
 
   l.emit(tokenEOF)
+  return nil
+}
+
+
+func lexLeft(l *Lexer) stateFunc {
+  r := l.next()
+  switch r {
+  case '(': l.emit(tokenLeft)
+  }
   return nil
 }

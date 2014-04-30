@@ -2,11 +2,13 @@ package littlelisp
 
 import(
   "testing"
-  "fmt"
 )
 
 var (
     tEOF = token{tokenEOF,""}
+    tQuote = token{tokenQuote,"'"}
+    tLeft = token{tokenLeft,"("}
+    tRight = token{tokenRight,")"}
 )
 
 func equal(got, exp []token) bool {
@@ -41,20 +43,28 @@ func collect(lexer *Lexer) []token {
   return tokens
 }
 
-func TestLex(t *testing.T) {
-  expected := []token{
-    {tokenLeft, "("},
-    {tokenText, "1"},
-    {tokenRight, ")"},
+type LexTest struct {
+  name string
+  input string
+  tokens []token
+}
+
+var tests = []LexTest{
+  {"emptyList", "'()", []token{
+    tQuote,
+    tLeft,
+    tRight,
     tEOF,
-  }
+  }},
+}
 
-  lexer := lex("(1)")
-  tokens := collect(lexer)
+func TestLex(t *testing.T) {
+  for _,test := range tests {
+    lexer := lex(test.input)
+    tokens := collect(lexer)
 
-  if !equal(tokens, expected) {
-    fmt.Println(tokens)
-    fmt.Println(expected)
-    t.Errorf("it should be equal, but got %v and was expected %v", tokens, expected)
+    if !equal(tokens, test.tokens) {
+      t.Errorf("Spec %s should be equal, but got %v and was expected %v", test.name, tokens, test.tokens)
+    }
   }
 }
