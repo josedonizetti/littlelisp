@@ -4,6 +4,7 @@ import (
   "unicode"
   "unicode/utf8"
   "fmt"
+  "strconv"
 )
 
 type tokenType int
@@ -151,16 +152,26 @@ func lexIdentifier(l *Lexer) stateFunc {
   switch {
   case isSpace(r):
     l.backup()
-    l.emit(tokenNumber)
+    emitIdentifier(l)
     l.ignore()
     return lexInsideList
   case r == ')':
     l.backup()
-    l.emit(tokenNumber)
+    emitIdentifier(l)
     return lexInsideList
   }
 
   return lexIdentifier
+}
+
+func emitIdentifier(l *Lexer) {
+  _, err := strconv.Atoi(l.input[l.start:l.pos])
+
+  if err == nil {
+    l.emit(tokenNumber)
+  } else {
+    l.emit(tokenString)
+  }
 }
 
 func isSpace(r rune) bool {

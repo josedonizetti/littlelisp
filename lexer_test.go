@@ -2,7 +2,7 @@ package littlelisp
 
 import(
   "testing"
-//  "fmt"
+  "fmt"
 )
 
 var (
@@ -20,6 +20,8 @@ func equal(got, exp []token) bool {
 
   for index, _ := range got {
     if got[index].typ != exp[index].typ {
+      fmt.Println(got[index].typ)
+      fmt.Println(exp[index].typ)
       return false
     }
 
@@ -75,7 +77,7 @@ var tests = []LexTest{
     tQuote,
     tLeft,
     {tokenNumber,"1011"},
-    {tokenNumber,"\"string\""},
+    {tokenString,"\"string\""},
     tRight,
     tEOF,
   }},
@@ -84,10 +86,10 @@ var tests = []LexTest{
     tLeft,
     {tokenNumber,"1011"},
     tLeft,
-    {tokenNumber,"\"string\""},
+    {tokenString,"\"string\""},
     {tokenNumber,"1"},
     tRight,
-    {tokenNumber,"\"another\""},
+    {tokenString,"\"another\""},
     tRight,
     tEOF,
   }},
