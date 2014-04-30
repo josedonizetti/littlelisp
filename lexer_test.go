@@ -20,8 +20,6 @@ func equal(got, exp []token) bool {
 
   for index, _ := range got {
     if got[index].typ != exp[index].typ {
-      fmt.Println(got[index].typ)
-      fmt.Println(exp[index].typ)
       return false
     }
 
@@ -90,6 +88,17 @@ var tests = []LexTest{
     {tokenNumber,"1"},
     tRight,
     {tokenString,"\"another\""},
+    tRight,
+    tEOF,
+  }},
+  {"functionCall", "(car (1 2 \"string\"))", []token{
+    tLeft,
+    {tokenIdentifier,"car"},
+    tLeft,
+    {tokenNumber,"1"},
+    {tokenNumber,"2"},
+    {tokenString,"\"string\""},
+    tRight,
     tRight,
     tEOF,
   }},

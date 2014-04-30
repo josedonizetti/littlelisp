@@ -5,6 +5,7 @@ import (
   "unicode/utf8"
   "fmt"
   "strconv"
+  "strings"
 )
 
 type tokenType int
@@ -16,6 +17,7 @@ const(
   tokenString
   tokenError
   tokenNumber
+  tokenIdentifier
   tokenEOF
 )
 
@@ -102,12 +104,18 @@ func lexText(l *Lexer) stateFunc {
     switch {
     case r == '\'':
       l.emit(tokenQuote)
-      return lexLeft(l)
+      return lexLeft
     case isSpace(r):
       l.ignore()
     case isAlphaNumeric(r):
       l.backup()
       return lexIdentifier
+    case r == '(':
+      l.backup()
+      return lexLeft
+    case r == ')':
+      l.emit(tokenRight)
+      return lexText
     }
   }
 
@@ -165,12 +173,15 @@ func lexIdentifier(l *Lexer) stateFunc {
 }
 
 func emitIdentifier(l *Lexer) {
-  _, err := strconv.Atoi(l.input[l.start:l.pos])
+  input := l.input[l.start:l.pos]
+  _, err := strconv.Atoi(input)
 
   if err == nil {
     l.emit(tokenNumber)
-  } else {
+  } else if strings.HasPrefix(input,"\"") {
     l.emit(tokenString)
+  } else {
+    l.emit(tokenIdentifier)
   }
 }
 
