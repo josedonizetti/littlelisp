@@ -8,12 +8,12 @@ func null() *Null {
   return new(Null)
 }
 
-func (p *Null) eval() string {
+func (p *Null) eval(env *Env) string {
   return ""
 }
 
-func (p *Null) evalList() string {
-  return p.eval()
+func (p *Null) evalList(env *Env) string {
+  return p.eval(env)
 }
 
 func isNull(e evaluable) bool {

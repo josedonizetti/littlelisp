@@ -4,12 +4,12 @@ type Atom struct {
   value string
 }
 
-func (p *Atom) eval() string {
+func (p *Atom) eval(env *Env) string {
   return p.value
 }
 
-func (p *Atom) evalList() string {
-  return p.eval()
+func (p *Atom) evalList(env *Env) string {
+  return p.eval(env)
 }
 
 func atom(value string) *Atom {

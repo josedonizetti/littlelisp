@@ -1,6 +1,6 @@
 package littlelisp
 
 type evaluable interface {
-  eval() string
-  evalList() string
+  eval(env *Env) string
+  evalList(env *Env) string
 }
