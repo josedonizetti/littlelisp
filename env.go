@@ -1,7 +1,6 @@
 package littlelisp
 
 import "strconv"
-import "fmt"
 
 type function func(env *Env, args evaluable) evaluable
 
@@ -15,8 +14,23 @@ func DefaultEnv() *Env {
 
   defaults["+"] = func(env *Env, args evaluable) evaluable {
     pair, _ := args.(*Pair)
-    a, _ := strconv.Atoi(pair.car.(*Atom).value)
-    return atom(string(a + 1))
+
+    if isNull(pair.cdr) {
+      return pair.car
+    }
+
+    if isAtom(pair.cdr) {
+      v1 := pair.car.(*Atom).value
+      v2 := pair.cdr.(*Atom).value
+
+      v3, _ := strconv.Atoi(v1)
+      v4, _ := strconv.Atoi(v2)
+      sum := strconv.Itoa(v3 + v4)
+
+      return atom(sum)
+    }
+
+    return null()
   }
 
   env := &Env{nil,defaults}

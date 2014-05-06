@@ -15,3 +15,8 @@ func (p *Atom) evalList(env *Env) string {
 func atom(value string) *Atom {
   return &Atom{value}
 }
+
+func isAtom(e evaluable) bool {
+  _, ok := e.(*Atom)
+  return ok
+}
