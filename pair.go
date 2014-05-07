@@ -1,32 +1,25 @@
 package littlelisp
 
 type Pair struct {
-  car evaluable
-  cdr evaluable
+  car *Atom
+  cdr *Pair
 }
 
-func (p *Pair) eval(env *Env) string {
-  if isNull(p.cdr) {
-    return p.car.eval(env)
-  } else if isNull(p.car) && isNull(p.cdr) {
-    return ""
-  } else {
-    return p.car.evalList(env) + " " + p.cdr.eval(env)
-  }
-}
+func (p *Pair) Eval(env *Env) *Atom {
 
-func (p *Pair) evalList(env *Env) string {
-  if isSymbol(p.car) {
-    return p.car.(*Symbol).Call(env, p.cdr)
+  if p.car.IsSymbol() {
+    atom, _ := p.car.Eval(env)
+    procedure := atom.Procedure()
+    return procedure(p.cdr)
   }
 
-  return "(" + p.eval(env) + ")"
+  return nil
 }
 
-func cons(car evaluable, cdr evaluable) evaluable {
-  return &Pair{car, cdr}
+func (p *Pair) String() string {
+  return "(1 2)"
 }
 
-func emptyList() evaluable {
-  return &Pair{null(), null()}
+func NewPair(car *Atom, cdr *Pair) *Pair {
+  return &Pair{car,cdr}
 }
