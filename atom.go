@@ -1,22 +1,64 @@
 package littlelisp
 
+import "strconv"
+
+type valueType uint8
+
+const (
+  nilValue valueType = iota
+  numberValue
+  stringValue
+  symbolValue
+  procedureValue
+)
+
 type Atom struct {
-  value string
+  typ valueType
+  val interface{}
 }
 
-func (p *Atom) eval(env *Env) string {
-  return p.value
+func (a *Atom) Eval(env *Env) (*Atom, error) {
+  switch a.typ {
+  case symbolValue:
+    return env.Lookup(a.val.(string)), nil
+  case procedureValue:
+    return env.Lookup(a.val.(string)), nil
+  default:
+    return a, nil
+  }
 }
 
-func (p *Atom) evalList(env *Env) string {
-  return p.eval(env)
+func (a *Atom) String() string {
+  switch a.typ {
+  case symbolValue:
+    fallthrough
+  case stringValue:
+    return a.val.(string)
+  case numberValue:
+    return strconv.Itoa(a.val.(int))
+  case procedureValue:
+    return "<procedure>"
+  default:
+    return ""
+  }
 }
 
-func atom(value string) *Atom {
-  return &Atom{value}
+func NewAtom(val interface{},typ valueType) *Atom {
+  return &Atom{typ,val}
 }
 
-func isAtom(e evaluable) bool {
-  _, ok := e.(*Atom)
-  return ok
+func NewString(val string) *Atom {
+  return &Atom{stringValue,val}
+}
+
+func NewNumber(val int) *Atom {
+  return &Atom{numberValue,val}
+}
+
+func NewSymbol(val string) *Atom {
+  return &Atom{symbolValue,val}
+}
+
+func NewProcedure(val func(atom...*Atom) *Atom) *Atom {
+  return &Atom{procedureValue,val}
 }
