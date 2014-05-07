@@ -17,6 +17,8 @@ type Atom struct {
   val interface{}
 }
 
+var Nil = &Atom{nilValue,nil}
+
 func (a *Atom) Eval(env *Env) (*Atom, error) {
   switch a.typ {
   case symbolValue:
@@ -43,6 +45,18 @@ func (a *Atom) String() string {
   }
 }
 
+func (a *Atom) Number() int {
+  return a.val.(int)
+}
+
+func (a *Atom) Procedure() func(params *Pair) *Atom {
+  return a.val.(func(params *Pair) *Atom)
+}
+
+func (a *Atom) IsSymbol() bool {
+  return a.typ == symbolValue
+}
+
 func NewAtom(val interface{},typ valueType) *Atom {
   return &Atom{typ,val}
 }
@@ -59,6 +73,6 @@ func NewSymbol(val string) *Atom {
   return &Atom{symbolValue,val}
 }
 
-func NewProcedure(val func(atom...*Atom) *Atom) *Atom {
+func NewProcedure(val func(params *Pair) *Atom) *Atom {
   return &Atom{procedureValue,val}
 }

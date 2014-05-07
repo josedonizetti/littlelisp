@@ -21,7 +21,7 @@ func TestAtom(t *testing.T) {
     t.Errorf("it should be '2' but was %s", v)
   }
 
-  procedure := NewProcedure(func(atom...*Atom) *Atom {
+  procedure := NewProcedure(func(params *Pair) *Atom {
     return NewNumber(2)
   })
   env.Define("sum", procedure)
