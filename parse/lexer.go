@@ -49,7 +49,7 @@ type Lexer struct {
   tokens chan token
 }
 
-func lex(input string) *Lexer {
+func Lex(input string) *Lexer {
   lexer := &Lexer{
     input: input,
     tokens: make(chan token),

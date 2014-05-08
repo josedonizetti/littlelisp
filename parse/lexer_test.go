@@ -11,7 +11,7 @@ var (
     tRight = token{tokenRight,")"}
 )
 
-func equal(got, exp []token) bool {
+func equalTokens(got, exp []token) bool {
 
   if len(got) != len(exp) {
     return false
@@ -49,7 +49,7 @@ type LexTest struct {
   tokens []token
 }
 
-var tests = []LexTest{
+var lexTests = []LexTest{
   {"emptyList", "'()", []token{
     tQuote,
     tLeft,
@@ -104,10 +104,10 @@ var tests = []LexTest{
 }
 
 func TestLex(t *testing.T) {
-  for _,test := range tests {
-    lexer := lex(test.input)
+  for _,test := range lexTests {
+    lexer := Lex(test.input)
     tokens := collect(lexer)
-    if !equal(tokens, test.tokens) {
+    if !equalTokens(tokens, test.tokens) {
       t.Errorf("Spec %s should be equal, but got %v and was expected %v", test.name, tokens, test.tokens)
     }
   }
