@@ -16,3 +16,7 @@ func (p *Pair) String() string {
 func NewPair(car *Atom, cdr *Pair) *Pair {
   return &Pair{car,cdr}
 }
+
+func EmptyPair() *Pair {
+  return &Pair{nil,nil}
+}
