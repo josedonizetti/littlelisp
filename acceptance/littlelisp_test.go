@@ -1,6 +1,9 @@
 package littlelisp
 
-import "testing"
+import (
+  "testing"
+  . "github.com/littlelisp/nodes"
+)
 
 func TestLittleLisp(testing *testing.T) {
   env := NewEnv(nil)
