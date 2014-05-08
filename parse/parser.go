@@ -2,6 +2,7 @@ package littlelisp
 
 import (
   . "github.com/littlelisp/nodes"
+  "strconv"
 /*  "fmt"*/
 )
 
@@ -21,10 +22,21 @@ func parsePair(lexer *Lexer) *Pair {
   token := lexer.NextToken()
   switch token.typ {
   case tokenLeft:
-    token = lexer.NextToken()
-    if token.typ == tokenRight {
-      return EmptyPair()
-    }
+    return parseItens(lexer)
   }
+  return nil
+}
+
+func parseItens(lexer *Lexer) *Pair {
+  token := lexer.NextToken()
+
+  switch token.typ {
+  case tokenRight:
+    return EmptyPair()
+  case tokenNumber:
+    number, _ := strconv.Atoi(token.val)
+    return NewPair(NewNumber(number), nil)
+  }
+
   return nil
 }

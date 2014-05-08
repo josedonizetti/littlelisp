@@ -13,6 +13,7 @@ type ParseTest struct {
 
 var parseTests = []ParseTest{
   {"emptyList", "'()", NewPair(NewSymbol("quote"),EmptyPair())},
+  {"listWithOneNumber", "'(1)", NewPair(NewSymbol("quote"),NewPair(NewNumber(1),nil))},
 }
 
 func TestParse(t *testing.T) {
