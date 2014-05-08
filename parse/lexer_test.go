@@ -33,7 +33,7 @@ func equalTokens(got, exp []token) bool {
 func collect(lexer *Lexer) []token {
   tokens := make([]token,0)
   for {
-    token := lexer.nextToken()
+    token := lexer.NextToken()
     tokens = append(tokens,token)
 
     if token.typ == tokenEOF {

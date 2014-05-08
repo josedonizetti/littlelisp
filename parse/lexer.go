@@ -67,7 +67,7 @@ func (l *Lexer) run() {
   close(l.tokens)
 }
 
-func (l *Lexer) nextToken() token {
+func (l *Lexer) NextToken() token {
   token := <-l.tokens
   return token
 }
