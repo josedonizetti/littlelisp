@@ -5,8 +5,8 @@ type Env struct {
   defaults map[string]*Atom
 }
 
-func NewEnv() *Env {
-  return &Env{nil,make(map[string]*Atom)}
+func NewEnv(parent *Env) *Env {
+  return &Env{parent,make(map[string]*Atom)}
 }
 
 func (env *Env) Define(symbol string, val *Atom) {
