@@ -3,7 +3,7 @@ package littlelisp
 import "testing"
 
 func TestAtom(t *testing.T) {
-  env := NewEnv()
+  env := NewEnv(nil)
 
   v, _ := NewString("a").Eval(env)
   if v.String() != "a" {
@@ -19,14 +19,5 @@ func TestAtom(t *testing.T) {
   v, _ = NewSymbol("b").Eval(env)
   if v.String() != "2" {
     t.Errorf("it should be '2' but was %s", v)
-  }
-
-  procedure := NewProcedure(func(params *Pair) *Atom {
-    return NewNumber(2)
-  })
-  env.Define("sum", procedure)
-  v, _ = NewSymbol("sum").Eval(env)
-  if v.String() != "<procedure>" {
-    t.Errorf("it should be 'procedure' but was %s", v)
   }
 }

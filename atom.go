@@ -9,7 +9,6 @@ const (
   numberValue
   stringValue
   symbolValue
-  procedureValue
 )
 
 type Atom struct {
@@ -22,8 +21,6 @@ var Nil = &Atom{nilValue,nil}
 func (a *Atom) Eval(env *Env) (*Atom, error) {
   switch a.typ {
   case symbolValue:
-    return env.Lookup(a.val.(string)), nil
-  case procedureValue:
     return env.Lookup(a.val.(string)), nil
   default:
     return a, nil
@@ -38,8 +35,6 @@ func (a *Atom) String() string {
     return a.val.(string)
   case numberValue:
     return strconv.Itoa(a.val.(int))
-  case procedureValue:
-    return "<procedure>"
   default:
     return ""
   }
@@ -47,10 +42,6 @@ func (a *Atom) String() string {
 
 func (a *Atom) Number() int {
   return a.val.(int)
-}
-
-func (a *Atom) Procedure() func(params *Pair) *Atom {
-  return a.val.(func(params *Pair) *Atom)
 }
 
 func (a *Atom) IsSymbol() bool {
@@ -71,8 +62,4 @@ func NewNumber(val int) *Atom {
 
 func NewSymbol(val string) *Atom {
   return &Atom{symbolValue,val}
-}
-
-func NewProcedure(val func(params *Pair) *Atom) *Atom {
-  return &Atom{procedureValue,val}
 }
