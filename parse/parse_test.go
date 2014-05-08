@@ -12,18 +12,17 @@ type ParseTest struct {
 }
 
 var parseTests = []ParseTest{
-  {"emptyList", "'()", NewPair(nil,nil)},
+  {"emptyList", "'()", NewPair(NewSymbol("quote"),EmptyPair())},
 }
 
 func TestParse(t *testing.T) {
  for _, test := range parseTests {
    got := Parse(test.input)
    if !equalPair(got, test.expected) {
-     t.Errorf("%s should be equal, expected %s but was %s", test.expected.String(), got.String())
+     t.Errorf("%s should be equal, expected %s but was %s", test.name, test.expected.String(), got.String())
    }
  }
 }
-
 
 func equalPair(got, expected *Pair) bool {
   if got.String() != expected.String() {
