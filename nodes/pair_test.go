@@ -13,4 +13,9 @@ func TestPair(t *testing.T) {
   if list.String() != "(\"1\" 1)" {
     t.Errorf("it should be equal, expecte (\"1\" 1) got %s", list.String())
   }
+
+  list = NewPair(NewSymbol("quote"),EmptyPair())
+  if list.String() != "(quote ())" {
+    t.Errorf("it should be equal, expecte (quote ()) got %s", list.String())
+  }
 }

@@ -10,12 +10,16 @@ func (p *Pair) Eval(env *Env) *Atom {
 }
 
 func (p *Pair) String() string {
+  if p.car == nil && p.cdr == nil {
+    return "()"
+  }
+
   return "(" + convertToString(p) + ")"
 }
 
 func convertToString(p *Pair) string {
   if p.car == nil && p.cdr == nil {
-    return ""
+    return "()"
   }
 
   if p.cdr == nil {
