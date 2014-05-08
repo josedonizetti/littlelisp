@@ -10,7 +10,19 @@ func (p *Pair) Eval(env *Env) *Atom {
 }
 
 func (p *Pair) String() string {
-  return ""
+  return "(" + convertToString(p) + ")"
+}
+
+func convertToString(p *Pair) string {
+  if p.car == nil && p.cdr == nil {
+    return ""
+  }
+
+  if p.cdr == nil {
+    return p.car.String()
+  }
+
+  return p.car.String() + " " + convertToString(p.cdr)
 }
 
 func NewPair(car *Atom, cdr *Pair) *Pair {
