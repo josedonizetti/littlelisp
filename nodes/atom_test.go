@@ -6,8 +6,8 @@ func TestAtom(t *testing.T) {
   env := NewEnv(nil)
 
   v, _ := NewString("a").Eval(env)
-  if v.String() != "a" {
-    t.Errorf("it should be 'a' but was %s", v)
+  if v.String() != "\"a\"" {
+    t.Errorf("it should be \"a\" but was %s", v)
   }
 
   v, _ = NewNumber(1).Eval(env)

@@ -34,7 +34,7 @@ func (a *Atom) String() string {
   case symbolValue:
     fallthrough
   case stringValue:
-    return a.val.(string)
+    return "\"" + a.val.(string) + "\""
   case numberValue:
     return strconv.Itoa(a.val.(int))
   default:
