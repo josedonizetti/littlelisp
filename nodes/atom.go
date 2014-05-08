@@ -32,7 +32,7 @@ func (a *Atom) Eval(env *Env) (*Atom, error) {
 func (a *Atom) String() string {
   switch a.typ {
   case symbolValue:
-    fallthrough
+    return a.val.(string)
   case stringValue:
     return "\"" + a.val.(string) + "\""
   case numberValue:

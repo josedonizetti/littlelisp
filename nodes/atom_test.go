@@ -15,6 +15,11 @@ func TestAtom(t *testing.T) {
     t.Errorf("it should be '1' but was %s", v)
   }
 
+  v = NewSymbol("a")
+  if v.String() != "a" {
+    t.Errorf("it should be a but was %s", v)
+  }
+
   env.Define("b", NewNumber(2))
   v, _ = NewSymbol("b").Eval(env)
   if v.String() != "2" {
