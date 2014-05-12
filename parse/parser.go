@@ -28,13 +28,33 @@ func (p *Parser) backup() {
 }
 
 
-func Parse(input string) *Pair {
+func Parse(input string) Value {
   lexer := Lex(input)
   parser := &Parser{lexer: lexer, tokenIndex: 0}
-  return parsePair(parser)
+
+
+  token := parser.nextToken()
+
+  switch token.typ {
+  case tokenQuote:
+    parser.backup()
+    return parsePair(parser)
+  case tokenLeft:
+    parser.backup()
+    return parsePair(parser)
+  case tokenNumber:
+    number, _ := strconv.Atoi(token.val)
+    return NewNumber(number)
+  case tokenString:
+    return NewString(token.val)
+  case tokenSymbol:
+    return NewSymbol(token.val)
+  }
+
+  return nil
 }
 
-func parsePair(parser *Parser) *Pair {
+func parsePair(parser *Parser) Value {
   token := parser.nextToken()
 
   switch token.typ {

@@ -1,12 +1,12 @@
 package littlelisp
 
 type Pair struct {
-  car *Atom
-  cdr *Pair
+  car Value
+  cdr Value
 }
 
-func (p *Pair) Eval(env *Env) *Atom {
-  return nil
+func (p *Pair) Eval(env *Env) (Value, error) {
+  return nil, nil
 }
 
 func (p *Pair) String() string {
@@ -26,13 +26,13 @@ func convertToString(p *Pair) string {
     return p.car.String()
   }
 
-  return p.car.String() + " " + convertToString(p.cdr)
+  return p.car.String() + " " + convertToString(p.cdr.(*Pair))
 }
 
-func NewPair(car *Atom, cdr *Pair) *Pair {
+func NewPair(car Value, cdr Value) *Pair {
   return &Pair{car,cdr}
 }
 
-func EmptyPair() *Pair {
+func EmptyPair() Value {
   return &Pair{nil,nil}
 }
