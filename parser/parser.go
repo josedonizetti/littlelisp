@@ -1,7 +1,7 @@
-package littlelisp
+package parser
 
 import (
-  . "github.com/littlelisp/nodes"
+  . "github.com/littlelisp/context"
   "strconv"
 )
 

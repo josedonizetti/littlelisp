@@ -1,4 +1,4 @@
-package littlelisp
+package context
 
 import (
   "strconv"
@@ -44,24 +44,4 @@ func (a *Atom) String() string {
 
 func (a *Atom) Number() int {
   return a.val.(int)
-}
-
-func (a *Atom) IsSymbol() bool {
-  return a.typ == symbolValue
-}
-
-func NewAtom(val interface{},typ valueType) Value {
-  return &Atom{typ,val}
-}
-
-func NewString(val string) Value {
-  return &Atom{stringValue,val}
-}
-
-func NewNumber(val int) Value {
-  return &Atom{numberValue,val}
-}
-
-func NewSymbol(val string) Value {
-  return &Atom{symbolValue,val}
 }

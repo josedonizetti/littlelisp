@@ -1,4 +1,4 @@
-package littlelisp
+package context
 
 type Pair struct {
   car Value

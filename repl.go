@@ -2,8 +2,8 @@ package main
 
 import (
   "fmt"
-  . "github.com/littlelisp/parse"
-  . "github.com/littlelisp/nodes"
+  . "github.com/littlelisp/context"
+  . "github.com/littlelisp/parser"
 )
 
 func main() {

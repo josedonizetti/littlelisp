@@ -1,8 +1,8 @@
-package littlelisp
+package parser
 
 import (
   "testing"
-  . "github.com/littlelisp/nodes"
+  . "github.com/littlelisp/context"
 )
 
 type ParseTest struct {

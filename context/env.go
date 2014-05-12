@@ -1,4 +1,4 @@
-package littlelisp
+package context
 
 type Env struct {
   parent *Env

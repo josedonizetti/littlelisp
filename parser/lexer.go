@@ -1,4 +1,4 @@
-package littlelisp
+package parser
 
 import (
   "unicode"

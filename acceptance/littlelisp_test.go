@@ -2,7 +2,7 @@ package littlelisp
 
 import (
   "testing"
-  . "github.com/littlelisp/nodes"
+  . "github.com/littlelisp/context"
 )
 
 func TestLittleLisp(testing *testing.T) {
