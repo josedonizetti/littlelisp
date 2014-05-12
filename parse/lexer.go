@@ -17,7 +17,7 @@ const(
   tokenString
   tokenError
   tokenNumber
-  tokenIdentifier
+  tokenSymbol
   tokenEOF
 )
 
@@ -181,7 +181,7 @@ func emitIdentifier(l *Lexer) {
   } else if strings.HasPrefix(input,"\"") {
     l.emit(tokenString)
   } else {
-    l.emit(tokenIdentifier)
+    l.emit(tokenSymbol)
   }
 }
 

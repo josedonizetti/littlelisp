@@ -92,7 +92,7 @@ var lexTests = []LexTest{
   }},
   {"functionCall", "(car (1 2 \"string\"))", []token{
     tLeft,
-    {tokenIdentifier,"car"},
+    {tokenSymbol,"car"},
     tLeft,
     {tokenNumber,"1"},
     {tokenNumber,"2"},
