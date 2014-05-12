@@ -5,7 +5,7 @@ import "testing"
 func TestAtom(t *testing.T) {
   env := NewEnv(nil)
 
-  v, _ := NewString("a").Eval(env)
+  v, _ := NewString("\"a\"").Eval(env)
   if v.String() != "\"a\"" {
     t.Errorf("it should be \"a\" but was %s", v)
   }
