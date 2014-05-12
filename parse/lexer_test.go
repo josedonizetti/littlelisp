@@ -50,6 +50,18 @@ type LexTest struct {
 }
 
 var lexTests = []LexTest{
+  {"number", "1", []token{
+    {tokenNumber,"1"},
+    tEOF,
+  }},
+  {"symbol", "a", []token{
+    {tokenSymbol,"a"},
+    tEOF,
+  }},
+  {"string", "\"a\"", []token{
+    {tokenString,"\"a\""},
+    tEOF,
+  }},
   {"emptyList", "'()", []token{
     tQuote,
     tLeft,

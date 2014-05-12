@@ -156,6 +156,10 @@ func lexInsideList(l *Lexer) stateFunc {
 
 func lexIdentifier(l *Lexer) stateFunc {
   r := l.next()
+  if r == eof {
+    emitIdentifier(l)
+    return lexText
+  }
 
   switch {
   case isSpace(r):
