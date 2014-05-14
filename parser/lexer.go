@@ -110,6 +110,9 @@ func lexText(l *Lexer) stateFunc {
     case isAlphaNumeric(r):
       l.backup()
       return lexIdentifier
+    case isSpecialSymbol(r):
+      l.backup()
+      return lexIdentifier
     case r == '(':
       l.backup()
       return lexLeft
@@ -144,6 +147,9 @@ func lexInsideList(l *Lexer) stateFunc {
     l.emit(tokenRight)
     return lexText
   case isAlphaNumeric(r):
+    l.backup()
+    return lexIdentifier
+  case isSpecialSymbol(r):
     l.backup()
     return lexIdentifier
   case r == '(':
@@ -195,4 +201,14 @@ func isSpace(r rune) bool {
 
 func isAlphaNumeric(r rune) bool {
   return unicode.IsLetter(r) || unicode.IsDigit(r)
+}
+
+func isSpecialSymbol(r rune) bool {
+  for _, e := range []rune{'+','-','*','/'} {
+    if r == e  {
+      return true
+    }
+  }
+
+  return false
 }

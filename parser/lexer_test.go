@@ -102,7 +102,15 @@ var lexTests = []LexTest{
     tRight,
     tEOF,
   }},
-  {"functionCall", "(car (1 2 \"string\"))", []token{
+  {"functionCall1", "(+ 1 2)", []token{
+    tLeft,
+    {tokenSymbol,"+"},
+    {tokenNumber,"1"},
+    {tokenNumber,"2"},
+    tRight,
+    tEOF,
+  }},
+  {"functionCall2", "(car (1 2 \"string\"))", []token{
     tLeft,
     {tokenSymbol,"car"},
     tLeft,
