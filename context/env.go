@@ -1,5 +1,7 @@
 package context
 
+import "strings"
+
 type procedure func(value Value) Value
 
 type Env struct {
@@ -19,5 +21,17 @@ func NewEnv(parent *Env) *Env {
 }
 
 func (env *Env) Lookup(symbol string) procedure {
-  return env.procedures[symbol]
+  procedure := env.procedures[strings.TrimSpace(symbol)]
+
+  if procedure == nil {
+    return func(value Value) Value { return nil }
+  }
+
+  return procedure
+}
+
+func (env *Env) Define(symbol string, value Value) {
+  env.procedures[strings.TrimSpace(symbol)] = func(v Value) Value {
+    return value
+  }
 }

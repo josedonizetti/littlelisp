@@ -35,3 +35,7 @@ func NewNumber(val int) Value {
 func NewSymbol(val string) Value {
   return &Atom{symbolValue,val}
 }
+
+func IsSymbol(value Value) bool {
+  return value.(*Atom).IsSymbol()
+}

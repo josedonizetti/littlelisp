@@ -9,13 +9,12 @@ import (
 )
 
 func main() {
+  env := NewEnv(nil)
   for {
     fmt.Print("> ")
     in := bufio.NewReader(os.Stdin)
     line, _ := in.ReadString('\n')
-    env := NewEnv(nil)
-    value, _ := Parse(line).Eval(env)
+    value, _ := Parse(line).Eval(env, GetForms())
     fmt.Println(value)
   }
-
 }

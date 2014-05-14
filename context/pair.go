@@ -5,16 +5,28 @@ type Pair struct {
   cdr Value
 }
 
-func (p *Pair) Eval(env *Env) (Value, error) {
-  name := symbol(car(p))
-
-  procedure := env.Lookup(name)
-
-  if procedure != nil {
-    return procedure(p.cdr), nil
+func (p *Pair) Eval(env *Env, forms *Forms) (Value, error) {
+  if p.car == nil && p.cdr == nil {
+    return nil, nil
   }
 
-  return nil, nil
+  if (IsSymbol(car(p))) {
+    name := symbol(car(p))
+
+    form := forms.Lookup(name)
+    if form != nil {
+      return form(p.cdr, env, forms), nil
+    }
+
+    procedure := env.Lookup(name)
+
+    if procedure != nil {
+      return procedure(p.cdr), nil
+    }
+  }
+
+  value, _ := p.car.Eval(env, forms)
+  return value, nil
 }
 
 func (p *Pair) String() string {

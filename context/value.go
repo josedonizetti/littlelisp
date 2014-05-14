@@ -1,6 +1,6 @@
 package context
 
 type Value interface {
-  Eval(env *Env) (Value, error)
+  Eval(env *Env, forms *Forms) (Value, error)
   String() string
 }

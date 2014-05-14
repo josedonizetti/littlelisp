@@ -20,7 +20,7 @@ type Atom struct {
 
 var Nil = &Atom{nilValue,nil}
 
-func (a *Atom) Eval(env *Env) (Value, error) {
+func (a *Atom) Eval(env *Env, forms *Forms) (Value, error) {
   switch a.typ {
   case symbolValue:
     return env.Lookup(a.val.(string))(nil), nil
@@ -44,4 +44,13 @@ func (a *Atom) String() string {
 
 func (a *Atom) Number() int {
   return a.val.(int)
+}
+
+func (a *Atom) IsSymbol() bool {
+  switch a.typ {
+  case symbolValue:
+    return true
+  default:
+    return false
+  }
 }
