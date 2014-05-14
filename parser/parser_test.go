@@ -22,7 +22,9 @@ var parseTests = []ParseTest{
   {"listWithThreeElements", "'(1 \"a\" s)",
         NewPair(NewSymbol("quote"), NewPair(NewNumber(1),
               NewPair(NewString("\"a\""),NewPair(NewSymbol("s"),nil))))},
-  {"functionCall", "(car (1 2))", NewPair(NewSymbol("car"),
+  {"functionCall1", "(+ 1 2)", NewPair(NewSymbol("+"),
+                                          NewPair(NewNumber(1),NewPair(NewNumber(2),nil)))},
+  {"functionCall2", "(car (1 2))", NewPair(NewSymbol("car"),
                                           NewPair(NewNumber(1),NewPair(NewNumber(2),nil)))},
 }
 

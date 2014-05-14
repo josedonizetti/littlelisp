@@ -3,6 +3,7 @@ package parser
 import (
   . "github.com/littlelisp/context"
   "strconv"
+  // "fmt"
 )
 
 type Parser struct {
@@ -27,11 +28,9 @@ func (p *Parser) backup() {
   p.tokenIndex++
 }
 
-
 func Parse(input string) Value {
   lexer := Lex(input)
   parser := &Parser{lexer: lexer, tokenIndex: 0}
-
 
   token := parser.nextToken()
 
