@@ -6,6 +6,14 @@ type Pair struct {
 }
 
 func (p *Pair) Eval(env *Env) (Value, error) {
+  name := symbol(car(p))
+
+  procedure := env.Lookup(name)
+
+  if procedure != nil {
+    return procedure(p.cdr), nil
+  }
+
   return nil, nil
 }
 
@@ -26,7 +34,7 @@ func convertToString(p *Pair) string {
     return p.car.String()
   }
 
-  return p.car.String() + " " + convertToString(p.cdr.(*Pair))
+  return p.car.String() + " " + convertToString(pair(p.cdr))
 }
 
 func NewPair(car Value, cdr Value) *Pair {

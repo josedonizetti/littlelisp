@@ -23,7 +23,7 @@ var Nil = &Atom{nilValue,nil}
 func (a *Atom) Eval(env *Env) (Value, error) {
   switch a.typ {
   case symbolValue:
-    return env.Lookup(a.val.(string)), nil
+    return env.Lookup(a.val.(string))(nil), nil
   default:
     return a, nil
   }
@@ -32,7 +32,7 @@ func (a *Atom) Eval(env *Env) (Value, error) {
 func (a *Atom) String() string {
   switch a.typ {
   case symbolValue:
-    return a.val.(string)
+    fallthrough
   case stringValue:
     return a.val.(string)
   case numberValue:

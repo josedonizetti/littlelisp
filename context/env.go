@@ -1,18 +1,23 @@
 package context
 
+type procedure func(value Value) Value
+
 type Env struct {
   parent *Env
-  defaults map[string]Value
+  procedures map[string]procedure
 }
 
 func NewEnv(parent *Env) *Env {
-  return &Env{parent,make(map[string]Value)}
+  procedures := make(map[string]procedure)
+
+  procedures["+"] = Add
+  procedures["-"] = Sub
+  procedures["/"] = Div
+  procedures["*"] = Mul
+
+  return &Env{parent,procedures}
 }
 
-func (env *Env) Define(symbol string, val Value) {
-  env.defaults[symbol] = val
-}
-
-func (env *Env) Lookup(symbol string) Value {
-  return env.defaults[symbol]
+func (env *Env) Lookup(symbol string) procedure {
+  return env.procedures[symbol]
 }
