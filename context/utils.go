@@ -4,6 +4,10 @@ func number(value Value) int {
   return value.(*Atom).Number()
 }
 
+func symbol(value Value) string {
+  return value.(*Atom).String()
+}
+
 func pair(value Value) *Pair {
   return value.(*Pair)
 }
