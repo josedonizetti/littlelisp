@@ -8,6 +8,7 @@ type Forms struct {
 func GetForms() *Forms {
   forms := map[string]form{
     "define": Define,
+    "quote": Quote,
   }
   return &Forms{forms}
 }
@@ -24,4 +25,8 @@ func Define(value Value, env *Env, forms *Forms) Value {
   env.Define(name, value)
 
   return nil
+}
+
+func Quote(value Value, env *Env, forms *Forms) Value {
+  return value
 }
