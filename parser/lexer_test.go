@@ -121,6 +121,21 @@ var lexTests = []LexTest{
     tRight,
     tEOF,
   }},
+  {"lambdaCall", "(lambda (a b) (+ a 2))", []token{
+    tLeft,
+    {tokenSymbol,"lambda"},
+    tLeft,
+    {tokenSymbol,"a"},
+    {tokenSymbol,"b"},
+    tRight,
+    tLeft,
+    {tokenSymbol,"+"},
+    {tokenSymbol,"a"},
+    {tokenNumber,"2"},
+    tRight,
+    tRight,
+    tEOF,
+  }},
 }
 
 func TestLex(t *testing.T) {

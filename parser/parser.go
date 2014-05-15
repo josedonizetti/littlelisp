@@ -58,18 +58,20 @@ func parsePair(parser *Parser) Value {
 
   switch token.typ {
   case tokenQuote:
-    return NewPair(NewSymbol("quote"), parsePair(parser))
+    return NewPair(NewSymbol("quote"), parseLeft(parser))
   case tokenLeft:
     token := parser.nextToken()
     switch token.typ {
     case tokenRight:
       return EmptyPair()
     case tokenSymbol:
-      return NewPair(NewSymbol(token.val), parsePair(parser))
+      return NewPair(NewSymbol(token.val), parseLeft(parser))
     default:
       parser.backup()
       return parsePair(parser)
     }
+
+    return nil
   case tokenRight:
     return nil
   case tokenNumber:
@@ -82,4 +84,19 @@ func parsePair(parser *Parser) Value {
   }
 
   return nil
+}
+
+func parseLeft(parser *Parser) Value {
+  token := parser.nextToken()
+
+  switch token.typ {
+  case tokenLeft:
+    return NewPair(parsePair(parser),parseLeft(parser))
+  default:
+    parser.backup()
+    return parsePair(parser)
+  }
+
+  return nil
+
 }
